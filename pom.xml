@@ -1,0 +1,215 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>jqconsult</groupId>
+	<artifactId>jqconsult</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<hadoop.version>2.6.0</hadoop.version>
+		 <mahout.version>0.10.1</mahout.version>
+		<jdiff.version>1.0.9</jdiff.version>
+		
+		<remote.home>/home/jiuqian/djc</remote.home>
+		<remote.username>jiuqian</remote.username>
+		
+		<bas.dir>./</bas.dir>
+		<dist.dir>${bas.dir}/target/</dist.dir>
+		<jar.name>${main.class}</jar.name>
+		<jar.file>${jar.name}.jar</jar.file>
+		<remote.dir>${remote.home}/hadoop.jar</remote.dir>
+		<hadoop.conf>-D mapreduce.map.java.opts=-Xmx896m -Dmapreduce.map.memory.mb=1024 -D mapreduce.input.fileinputformat.split.minsize=1 -D mapreduce.input.fileinputformat.split.maxsize=536870912 -D mapreduce.input.linerecordreader.line.maxlength=1048576</hadoop.conf>
+		<hadoop.conf.unicom>-D mapreduce.map.java.opts=-Xmx896m -Dmapreduce.map.memory.mb=1024 -D mapreduce.input.fileinputformat.split.minsize=1 -D mapreduce.input.fileinputformat.split.maxsize=536870912 -D mapreduce.input.linerecordreader.line.maxlength=1048576 --files=urlindex.xml --city=beijing --startjobid=0</hadoop.conf.unicom>
+		<!-- 北京测试服务器 -->
+		<remote.host>192.168.0.33</remote.host>
+		<remote.password>jiuqian</remote.password>
+		<remote.env>source  /home/jiuqian/.bashrc; cd ${remote.home}; /opt/hadoop/hadoop26/bin/hadoop jar </remote.env>
+		
+		<!-- 上海服务器 -->
+<!-- 		<remote.host>27.115.29.102</remote.host> -->
+<!-- 		<remote.password>jiuqian@stone</remote.password> -->
+<!-- 		<remote.env>source  /home/jiuqian/.bashrc; cd ${remote.home}; /home/hduser/hadoop/bin/hadoop jar </remote.env> -->
+
+		
+<!-- 广东 -->
+<!-- 		<main.class>mapreduce.project.urltrack.projects.local.UrlTrackForLocalMapReduce</main.class> -->
+		
+		<inpath160>/user/jiuqian/url/djc</inpath160>
+		<outpath160>/user/jiuqian/djc/url/2016-06-12/v288</outpath160>
+		
+		<inpath161>/user/jiuqian/djc/url/data/test</inpath161>
+		<outpath161>/user/jiuqian/djc/url/2016-06-22/v48</outpath161>
+		
+		<inpath162>/user/jiuqian/djc/url/data/mobile/2016-06-16/beijing</inpath162>
+		<outpath162>/user/jiuqian/djc/url/2016-07-27/v3</outpath162>
+<!-- 		<ssh.cmd>${remote.env} ${remote.dir}/${jar.file} ${hadoop.conf} ${inpath160} ${outpath160}</ssh.cmd> -->
+
+
+
+<!-- url联通 -->
+		<main.class>com.hadoop.project.track.portal.UrlTackForUnicomMapReduce</main.class>
+		
+		<inpath163>/user/jiuqian/djc/url/data/mobile/2016-06-16/beijing</inpath163>
+		<outpath163>/user/jiuqian/djc/url/2016-07-27/v20</outpath163>
+		
+
+		<ssh.cmd>${remote.env} ${remote.dir}/${jar.file} ${hadoop.conf.unicom} ${inpath163} ${outpath163}</ssh.cmd>		
+		
+		
+		
+		
+		
+		
+<!-- streaming流 -->
+<!-- 33集群 -->
+<!-- 		<streaming.jar.dir>/opt/hadoop/hadoop26/share/hadoop/tools/lib/hadoop-streaming-2.6.0.jar</streaming.jar.dir> -->
+<!-- 		<mapred.base>${remote.home}/hadoop.streaming</mapred.base> -->
+<!-- 		<streaming.conf> -->
+<!-- 			 -input ${inpath51} \ -->
+<!--     		 -output ${outpath51} \ -->
+<!--     		 -mapper mapper.sh \ -->
+<!--    		 -reducer reducer.sh \ -->
+<!--    		 -file ${mapred.base}/mapper.sh \ -->
+<!--    		 -file ${mapred.base}/reducer.sh \ -->
+<!--    		 -jobconf mapred.reduce.tasks=0 -->
+<!-- 			 -mapper org.apache.hadoop.mapred.lib.IdentityMapper \ -->
+<!--    			 -reducer org.apache.hadoop.mapred.lib.IdentityReducer \ -->
+<!--    			 -partitioner org.apache.hadoop.mapred.lib.KeyFieldBasedPartitioner \ -->
+<!--    		 	 -jobconf stream.map.output.field.separator="|" \ -->
+<!--    		 	 -jobconf stream.num.map.output.key.fields=4 \ -->
+<!--    			 -jobconf map.output.key.field.separator="|" \ -->
+<!--    			 -jobconf num.key.fields.for.partition=2 \ -->
+<!--     	</streaming.conf> -->
+<!-- 		<ssh.cmd>${remote.env} ${streaming.jar.dir} ${hadoop.conf} ${streaming.conf}</ssh.cmd> -->
+
+
+
+	</properties>
+	<build>
+		<finalName>${jar.name}</finalName>
+		<sourceDirectory>src</sourceDirectory>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<fork>true</fork>
+	                <executable>C:\Program Files\Java\jdk1.8.0_60\bin\javac.exe</executable>
+					<source>1.7</source>
+					<target>1.7</target>
+					<encoding>utf8</encoding>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.4</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<classpathPrefix>lib/</classpathPrefix>
+							<mainClass>${main.class}</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+			
+			<plugin>
+				<inherited>false</inherited>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.6</version>
+				<executions>
+					<execution>
+						<id>test</id>
+						<phase>install</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<target name="a-test"
+								description="how to get antrun plugin to work with SCP and SSH">
+								<echo message="Remember to fill empty fields..." />
+								file to be transferred
+								<scp trust="true" failonerror="true" verbose="off" sftp="true"
+									file="${dist.dir}/${jar.file}"
+									todir="${remote.username}:${remote.password}@${remote.host}:${remote.dir}/${jar.file}" />
+								calls deploy script
+								<sshexec host="${remote.host}" trust="yes"
+									username="${remote.username}" password="${remote.password}"
+									command="bash -c '${ssh.cmd}'" />
+
+								SSH
+								<taskdef name="sshexec"
+									classname="org.apache.tools.ant.taskdefs.optional.ssh.SSHExec"
+									classpathref="maven.plugin.classpath" />
+								<taskdef name="scp"
+									classname="org.apache.tools.ant.taskdefs.optional.ssh.Scp">
+									<classpath refid="maven.plugin.classpath" />
+								</taskdef>
+							</target>
+						</configuration>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>ant</groupId>
+						<artifactId>ant-commons-net</artifactId>
+						<version>1.6.5</version>
+					</dependency>
+					<dependency>
+						<groupId>org.apache.ant</groupId>
+						<artifactId>ant-jsch</artifactId>
+						<version>1.9.1</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+			
+		</plugins> 
+	</build>
+	
+	<dependencies>
+	
+		<dependency>
+	        <groupId>jdk.tools</groupId>
+	        <artifactId>jdk.tools</artifactId>
+	        <version>1.6</version>
+	        <scope>system</scope>
+	        <systemPath>${JAVA_HOME}/lib/tools.jar</systemPath>
+    	</dependency>
+		
+	
+        
+		<dependency>
+			<groupId>jqplat</groupId>
+			<artifactId>jqplat</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency> 
+	
+		<dependency>
+                <groupId>org.apache.hadoop</groupId>
+                <artifactId>hadoop-client</artifactId>
+                <version>2.6.0</version>
+        </dependency>
+        <dependency>
+                <groupId>org.apache.hadoop</groupId>
+                <artifactId>hadoop-common</artifactId>
+                <version>2.6.0</version>
+        </dependency>
+        <dependency>
+                <groupId>org.apache.hadoop</groupId>
+                <artifactId>hadoop-hdfs</artifactId>
+                <version>2.6.0</version>
+        </dependency>
+        
+        <dependency>  
+            <groupId>org.apache.hive</groupId>  
+            <artifactId>hive-jdbc</artifactId>  
+            <version>0.14.0</version>  
+        </dependency>  
+        
+	</dependencies>
+	
+</project>
